@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'capybara/rails'
+require 'capybara/email/rspec'
 require 'support/pages/movie_list'
 require 'support/pages/movie_new'
 require 'support/with_user'
@@ -7,11 +8,15 @@ require 'support/with_user'
 RSpec.describe 'vote on movies', type: :feature do
 
   let(:page) { Pages::MovieList.new }
+  let(:author_email_address) { 'bob@example.com' }
 
   before do
+    clear_emails
+
     author = User.create(
-      uid:  'null|12345',
-      name: 'Bob'
+      uid:   'null|12345',
+      name:  'Bob',
+      email: author_email_address
     )
     Movie.create(
       title:        'Empire strikes back',
@@ -38,6 +43,12 @@ RSpec.describe 'vote on movies', type: :feature do
     it 'can like' do
       page.like('Empire strikes back')
       expect(page).to have_vote_message
+    end
+
+    it 'like triggers notification email' do
+      page.like('Empire strikes back')
+      open_email(author_email_address)
+      expect(current_email).to_not be_nil
     end
 
     it 'can hate' do
