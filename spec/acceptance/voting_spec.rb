@@ -4,6 +4,7 @@ require 'capybara/email/rspec'
 require 'support/pages/movie_list'
 require 'support/pages/movie_new'
 require 'support/with_user'
+require 'sidekiq/testing'
 
 RSpec.describe 'vote on movies', type: :feature do
 
@@ -11,6 +12,7 @@ RSpec.describe 'vote on movies', type: :feature do
   let(:author_email_address) { 'bob@example.com' }
 
   before do
+    Sidekiq::Testing.inline!
     clear_emails
 
     author = User.create(
