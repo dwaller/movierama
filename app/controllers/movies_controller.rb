@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
   def index
-    # TODO: extract loginc into a Search service
+    # TODO: extract logic into a Search service
     if _index_params[:user_id]
       @submitter = User[_index_params[:user_id]]
       scope = Movie.find(user_id: @submitter.id)
