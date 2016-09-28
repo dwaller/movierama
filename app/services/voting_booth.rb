@@ -34,8 +34,7 @@ class VotingBooth
   end
 
   def _email_movie_submitter(like)
-    UserMailer.delay.vote_notification_email(@movie.user.uid,
-                                             @user.uid,
+    UserMailer.delay.vote_notification_email(@user.uid,
                                              @movie.id,
                                              like)
   end

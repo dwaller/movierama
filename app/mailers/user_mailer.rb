@@ -1,10 +1,10 @@
 class UserMailer < ActionMailer::Base
   default from: "mail@movierama.com"
 
-  def vote_notification_email(user_uid, voter_uid, movie_id, like)
-    @user  = User.find(uid: user_uid).first
+  def vote_notification_email(voter_uid, movie_id, like)
     @voter = User.find(uid: voter_uid).first
     @movie = Movie[movie_id]
+    @user  = @movie.user
     @like  = like
     return unless @user.email
 

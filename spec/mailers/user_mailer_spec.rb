@@ -16,14 +16,12 @@ RSpec.describe UserMailer, type: :mailer do
                          email: 'alice@example.com') }
 
     before do
-      allow(User).to receive(:find).with(uid: author.uid).and_return([author])
       allow(User).to receive(:find).with(uid: voter.uid).and_return([voter])
       allow(Movie).to receive(:[]).with(movie.id).and_return(movie)
     end
 
     context 'for a like' do
-      let(:mail) { described_class.vote_notification_email(author.uid,
-                                                           voter.uid,
+      let(:mail) { described_class.vote_notification_email(voter.uid,
                                                            movie.id,
                                                            true).deliver }
 
@@ -43,8 +41,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     context 'for a hate' do
-      let(:mail) { described_class.vote_notification_email(author.uid,
-                                                           voter.uid,
+      let(:mail) { described_class.vote_notification_email(voter.uid,
                                                            movie.id,
                                                            false).deliver }
 
@@ -68,8 +65,7 @@ RSpec.describe UserMailer, type: :mailer do
                             name:  'Bob',
                             email: nil) }
 
-      let(:mail) { described_class.vote_notification_email(author.uid,
-                                                           voter.uid,
+      let(:mail) { described_class.vote_notification_email(voter.uid,
                                                            movie.id,
                                                            false).deliver }
 
