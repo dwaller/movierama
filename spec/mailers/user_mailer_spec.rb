@@ -10,10 +10,12 @@ RSpec.describe UserMailer, type: :mailer do
                          description:  'Who\'s scruffy-looking?',
                          date:         '1980-05-21',
                          user:         author) }
-
     let(:voter) { double(uid:   'github|45678',
                          name:  'Alice',
                          email: 'alice@example.com') }
+    let(:mail) { described_class.vote_notification_email(voter.uid,
+                                                         movie.id,
+                                                         like?).deliver }
 
     before do
       allow(User).to receive(:find).with(uid: voter.uid).and_return([voter])
@@ -21,9 +23,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     context 'for a like' do
-      let(:mail) { described_class.vote_notification_email(voter.uid,
-                                                           movie.id,
-                                                           true).deliver }
+      let(:like?) { true }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('Someone likes or hates your movie')
@@ -41,9 +41,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     context 'for a hate' do
-      let(:mail) { described_class.vote_notification_email(voter.uid,
-                                                           movie.id,
-                                                           false).deliver }
+      let(:like?) { false }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('Someone likes or hates your movie')
@@ -64,10 +62,7 @@ RSpec.describe UserMailer, type: :mailer do
       let(:author) { double(uid:   'github|12345',
                             name:  'Bob',
                             email: nil) }
-
-      let(:mail) { described_class.vote_notification_email(voter.uid,
-                                                           movie.id,
-                                                           false).deliver }
+      let(:like?) { true }
 
       it 'does not deliver an email' do
         expect(mail).to be_nil
