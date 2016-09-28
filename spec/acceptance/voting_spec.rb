@@ -50,12 +50,18 @@ RSpec.describe 'vote on movies', type: :feature do
     it 'like triggers notification email' do
       page.like('Empire strikes back')
       open_email(author_email_address)
-      expect(current_email).to_not be_nil
+      expect(current_email).to have_content('likes Empire strikes back')
     end
 
     it 'can hate' do
       page.hate('Empire strikes back')
       expect(page).to have_vote_message
+    end
+
+    it 'hate triggers notification email' do
+      page.hate('Empire strikes back')
+      open_email(author_email_address)
+      expect(current_email).to have_content('hates Empire strikes back')
     end
 
     it 'can unlike' do
