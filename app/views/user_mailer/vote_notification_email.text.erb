@@ -1,0 +1,5 @@
+<% if @like -%>
+A kindred spirit!  <%= @voter.name %> likes <%= @movie.title %> too.
+<% else -%>
+How rude!  <%= @voter.name %> hates <%= @movie.title %>.
+<% end %>

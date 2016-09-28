@@ -37,7 +37,8 @@ RSpec.describe UserMailer, type: :mailer do
       end
 
       it 'renders the body' do
-        expect(mail.body.encoded).to include("A kindred spirit!  Alice likes Empire strikes back too.")
+        expect(mail.html_part.body.encoded).to include("A kindred spirit!  Alice likes Empire strikes back too.")
+        expect(mail.text_part.body.encoded).to include("A kindred spirit!  Alice likes Empire strikes back too.")
       end
     end
 
@@ -57,7 +58,8 @@ RSpec.describe UserMailer, type: :mailer do
       end
 
       it 'renders the body' do
-        expect(mail.body.encoded).to include("How rude!  Alice hates Empire strikes back.")
+        expect(mail.html_part.body.encoded).to include("How rude!  Alice hates Empire strikes back.")
+        expect(mail.text_part.body.encoded).to include("How rude!  Alice hates Empire strikes back.")
       end
     end
 
