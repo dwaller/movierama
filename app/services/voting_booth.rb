@@ -14,7 +14,7 @@ class VotingBooth
     unvote # to guarantee consistency
     set.add(@user)
     _update_counts
-    _notify_movie_submitter
+    _email_movie_submitter(like_or_hate == :like)
     self
   end
 
@@ -33,7 +33,10 @@ class VotingBooth
       hater_count: @movie.haters.size)
   end
 
-  def _notify_movie_submitter
-    UserMailer.delay.like_hate_notification_email(@movie.user.uid)
+  def _email_movie_submitter(like)
+    UserMailer.delay.vote_notification_email(@movie.user.uid,
+                                             @user.uid,
+                                             @movie.id,
+                                             like)
   end
 end

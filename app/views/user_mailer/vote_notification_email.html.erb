@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <% if @like -%>
+      <p>A kindred spirit!  <%= @voter.name %> likes <%= @movie.title %> too.</p>
+    <% else -%>
+      <p>How rude!  <%= @voter.name %> hates <%= @movie.title %>.</p>
+    <% end %>
+  </body>
+</html>
